@@ -2,10 +2,10 @@ var knex = require('../db/knex');
 
 module.exports = {
   appSetUp: function(user_data){
-    return knex('users').where('email', user_data.email).update({phone: user_data.phone, name:user_data.full_name, pass:user_data.password})
+    return knex('users').where('email', user_data.email).update({name:user_data.full_name, pass:user_data.password})
   },
   rpiSetUp: function(user_data){
-    return knex.raw(`insert into users (key, email) values('${user_data.key}', '${user_data.email}')`)
+    return knex.raw(`insert into users (key, email, phone) values('${user_data.key}', '${user_data.email}', $${user_data.phone})`)
   },
   emailLookUp: function(email){
     return knex('users').where('email', email);
