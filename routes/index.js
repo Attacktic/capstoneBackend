@@ -19,18 +19,14 @@ router.post('/appSetUp', function(req, res, next){
   dbrequest.emailLookUp(req.body.email).then(function(data){
     req.body.password = bcrypt.hashSync(req.body.password, salt);
     if (data.length !==0){
-      console.log(data[0]);
       if (!data[0].name){
         dbrequest.appSetUp(req.body).then(function(){
-          console.log("updated");
           res.send('Updated user')
         })
       } else {
-        console.log("already setup");
         res.send('You Already Created a Password For This Account, Please Log In!')
       }
     } else {
-      console.log("email not found");
       res.send('Email Not Found, Make Sure Software is Properly Installed in your RPI.')
     }
   })
@@ -54,10 +50,8 @@ router.post('/login', function(req,res, next){
       res.send("Invalid Email/Password Combination");
     } else {
       if(bcrypt.compareSync(req.body.pass,data[0].pass)){
-        console.log("login verified");
         res.send('Login Verified');
       } else {
-        console.log("wrong");
         res.send("Invalid Email/Password Combination");
       }
     }
